@@ -1,0 +1,28 @@
+
+<div class="col-sm-3">
+    <!-- Left column -->
+    <strong><i class="glyphicon glyphicon-wrench"></i> Menu</strong>
+
+    <hr>
+    {% for inboxes in content.AccessTo %}
+        <ul class="nav nav-stacked">
+            <li class="nav-header">
+                <a href="#" data-toggle="collapse" data-target="#userMenu{{ loop.index }}">Mailbox
+                    ( {{ inboxes }} )<i
+                            class="glyphicon glyphicon-chevron-down"></i>
+                </a>
+                <ul class="nav nav-stacked collapse in" id="userMenu{{ loop.index }}">
+                    <li><a href="?a=home&mail={{ inboxes }}&action=inbox"><i
+                                    class="glyphicon glyphicon-envelope"></i> Inbox <span
+                                    class="badge badge-info">4</span></a></li>
+                    <li><a href="?a=sent&mail={{ inboxes }}&action=send"><i
+                                    class="glyphicon glyphicon-send"></i> Send</a></li>
+                    <li><a href="?a=spam&mail={{ inboxes }}&action=spam"><i
+                                    class="glyphicon glyphicon-exclamation-sign"></i> Spam</a></li>
+                    <li><a href="?a=trash&mail={{ inboxes }}&action=trash"><i
+                                    class="glyphicon glyphicon-trash"></i> Trash</a></li>
+                </ul>
+            </li>
+        </ul>
+    {% endfor %}
+</div>

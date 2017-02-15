@@ -1,0 +1,21 @@
+{
+  "name": "goldman40/mailgun-web",
+  "description": "Simple webmail for mailgun",
+  "minimum-stability": "dev",
+  "license": "Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International ",
+  "authors": [
+    {
+      "name": "goldman40",
+      "email": "goldman40@laposte.net"
+    }
+  ],
+  "autoload": {
+    "psr-4" : {
+      "app\\" : "app"
+    }
+  },
+  "require": {
+    "mailgun/mailgun-php": "1.7",
+    "twig/twig": "^1.28"
+  }
+}

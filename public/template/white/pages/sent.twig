@@ -1,0 +1,78 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <!-- Main -->
+    <div class="container-fluid">
+        <div class="row">
+
+            {% include 'menu.twig' %}
+
+
+            <div class="col-sm-9">
+
+                <!-- column 2 -->
+                <strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard </strong>
+                <hr>
+                <div class="row">
+                    <!-- center left-->
+                    <div class="col-md-6">
+
+                        <div class="btn-group btn-group-justified">
+                            <a href="#" class="btn btn-primary col-sm-3">
+                                <i class="glyphicon glyphicon-floppy-remove"></i>
+                                <br> Delete definitly
+                            </a>
+                            <a onclick="document.getElementById('MoveToIn').submit();" class="btn btn-primary col-sm-3">
+                                <i class="glyphicon glyphicon-ok"></i>
+                                <br> Move to Inbox
+                            </a>
+                        </div>
+
+                        <hr>
+                        <div class="panel panel-default">
+                            <form method="post" action="?a=home" id="MoveToIn">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <th>#</th>
+                                    <th>From</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for mail in content.mails %}
+                                        <tr onclick="seeMail('{{ mail.subject|e }}','{{ mail.content|e }}')">
+                                            <td>
+                                                <input type="checkbox" name="check{{ mail.id }}">
+                                                <span class="label label-default">New</span>
+                                            </td>
+                                            <td>{{ mail.sender }}</td>
+                                            <td>{{ mail.subject }}</td>
+                                            <td>{{ mail.when_|date() }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="action" value="MoveToIn">
+                            </form>
+                        </div>
+                    </div>
+                    <!--/col-->
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 id="subject">Mail header</h4></div>
+                            <div class="panel-body">
+                                <p id="content">Show a mail</p>
+                            </div>
+                        </div>
+                        <!--/panel-->
+                    </div>
+                    <!--/col-span-6-->
+                </div>
+                <!--/row-->
+            </div>
+            <!--/col-span-9-->
+        </div>
+    </div>
+    <!-- /Main -->
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <!-- Main -->
+    <div class="container-fluid">
+        <div class="row">
+
+            {% include 'menu.twig' %}
+
+
+            <div class="col-sm-9">
+
+                <!-- column 2 -->
+                <strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong>
+                <hr>
+
+                <div class="row">
+                    <!-- center left-->
+                    <div class="col-md-6">
+
+                        <div class="btn-group btn-group-justified">
+                            <a data-toggle="modal" data-target="#send" class="btn btn-primary col-sm-3">
+                                <i class="glyphicon glyphicon-send"></i>
+                                <br> New message
+                            </a>
+                            <a href="#" class="btn btn-primary col-sm-3">
+                                <i class="glyphicon glyphicon-share-alt"></i>
+                                <br> Reply
+                            </a>
+                            <a href="#" class="btn btn-primary col-sm-3">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <br> Spam
+                            </a>
+                            <a onclick="document.getElementById('delete').submit();" class="btn btn-primary col-sm-3">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <br> Trash
+                            </a>
+                        </div>
+
+                        <hr>
+                        <div class="panel panel-default">
+                            <form method="post" action="?a=home" id="delete">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <th>#</th>
+                                    <th>From</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for mail in content.mails %}
+                                        <tr onclick="seeMail('{{ mail.subject|escape('js') }}','{{ mail.content|escape('js') }}')">
+                                            <td onclick="viewmessage('{{ mail.id }}')">
+                                                <input type="checkbox" name="check{{ mail.id }}">
+                                                <span class="label label-default">New</span>
+                                            </td>
+                                            <td>{{ mail.sender|e }}</td>
+                                            <td>{{ mail.subject|e }}</td>
+                                            <td>{{ mail.when_|date() }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="action" value="delete">
+                            </form>
+                        </div>
+                    </div>
+                    <!--/col-->
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 id="subject">Mail header</h4></div>
+                            <div class="panel-body">
+                                <p id="content">Show a mail</p>
+                            </div>
+                        </div>
+                        <!--/panel-->
+                    </div>
+                    <!--/col-span-6-->
+                </div>
+                <!--/row-->
+            </div>
+            <!--/col-span-9-->
+        </div>
+    </div>
+    <!-- /Main -->
+
+    <!-- Modal send -->
+    <div class="modal fade" id="send" tabindex="-1" role="dialog" aria-labelledby="send">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Envoyer un mail</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="?a=home" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <select name="from" class="form-control">
+                                {% for inboxes in content.AccessTo %}
+                                    <option value="{{ inboxes }}">{{ inboxes }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="to">Pour</label>
+                            <input type="email" class="form-control" name="to" id="to" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Sujet</label>
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Email">
+                        </div>
+                        <textarea class="form-control" name="content" rows="7"></textarea>
+                        <div id="dynamicInput">
+                            File 1 <br><input name="attachment[]" type="file"/>
+                        </div>
+                        <input type="button" value="Add another file input" onClick="addInput('dynamicInput');">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <input type="hidden" name="action" value="send">
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Modal send -->
+{% endblock %}
